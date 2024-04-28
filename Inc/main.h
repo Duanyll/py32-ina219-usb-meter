@@ -49,6 +49,7 @@ extern "C" {
 /* Private defines -----------------------------------------------------------*/
 /* Exported variables prototypes ---------------------------------------------*/
 /* Exported functions prototypes ---------------------------------------------*/
+void APP_I2C_Transmit(uint8_t devAddress, uint8_t memAddress, uint8_t *pData, uint16_t len);
 void APP_ErrorHandler(void);
 
 #ifdef __cplusplus
