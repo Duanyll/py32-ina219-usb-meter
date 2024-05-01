@@ -24,6 +24,13 @@ static void APP_SSD1306Demo(void);
 
 SWIIC_Config swiic_config;
 
+// >>> CHANGE THIS VALUE TO MATCH YOUR HARDWARE
+// 2mR shunt resistor -> 5000 / 10000
+// 10mR shunt resistor -> 1000 / 10000
+// PCB layout may affect the calibration value,
+// it's better to measure the current and adjust the value.
+#define CURRENT_CALIBRATION (5000 / 10000)
+
 int main(void) {
   BSP_RCC_HSI_24MConfig();
   LL_mDelay(1000);
@@ -45,8 +52,7 @@ int main(void) {
   while (1) {
     int shuntVoltage = INA219_ReadShuntVoltage() * 10; // uV
     int busVoltage = INA219_ReadBusVoltage() * 4; // mV
-    // I = Vshunt / 12mR
-    int current = shuntVoltage * 5000 / 10000; // mA
+    int current = shuntVoltage * CURRENT_CALIBRATION; // mA
     int power = current * busVoltage / 1000; // mW
     if (power < 0) {
       power = -power;
