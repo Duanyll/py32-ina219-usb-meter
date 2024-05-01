@@ -39,15 +39,18 @@ int main(void) {
   swiic_config.delay = 10;
   SWIIC_Init(&swiic_config);
 
-  APP_SSD1306Demo();
+  SSD1306_Init();
   INA219_Init(&swiic_config);  
 
   while (1) {
     int shuntVoltage = INA219_ReadShuntVoltage() * 10; // uV
     int busVoltage = INA219_ReadBusVoltage() * 4; // mV
     // I = Vshunt / 12mR
-    int current = shuntVoltage * 1000 / 12 / 1000; // mA
+    int current = shuntVoltage * 5000 / 10000; // mA
     int power = current * busVoltage / 1000; // mW
+    if (power < 0) {
+      power = -power;
+    }
     APP_PrintString("Shunt Voltage: ");
     APP_PrintInt(shuntVoltage);
     APP_PrintString(" uV\n");
@@ -64,7 +67,11 @@ int main(void) {
     SSD1306_Fill(0);
 
     char buf[32] = {0};
-    sprintf(buf, "%d.%dA", current / 1000, current % 1000);
+    if (current < 0) {
+      sprintf(buf, "-%d.%dA", -current / 1000, -current % 1000);
+    } else {
+      sprintf(buf, "%d.%dA", current / 1000, current % 1000);
+    }
     SSD1306_GotoXY(0, 5);
     SSD1306_Puts(buf, &Font_6x10, 1);
     
