@@ -29,7 +29,7 @@ SWIIC_Config swiic_config;
 // 10mR shunt resistor -> 1000 / 10000
 // PCB layout may affect the calibration value,
 // it's better to measure the current and adjust the value.
-#define CURRENT_CALIBRATION (5000 / 10000)
+#define CURRENT_CALIBRATION 5000 / 10000
 
 int main(void) {
   BSP_RCC_HSI_24MConfig();
