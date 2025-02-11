@@ -35,3 +35,36 @@ PY32F002A 是一款极具性价比的 32 位 MCU, 部分封装仅售 0.3 元起,
 4. 立创 EDA 导出的 BOM 是正确的。
 5. 串口和 SWD 调试接口已经引出，可以使用兼容 DAPLink 的调试器进行下载和调试。
 6. Type-C 版本从母口供电时，示数会包括电流表自身的电流，可自行修改程序减掉这部分电流。
+
+## 构建方法
+
+请注意需要根据实际使用的采样电阻值修改 [这里的参数](https://github.com/Duanyll/py32-ina219-usb-meter/blob/master/Src/main.c#L23). 最好用一个已知阻值的纯电阻负载校准一下。
+
+确保 Path 中已经安装了 `arm-none-eabi-gcc` 工具链和 `cmake`，在 Windows 上可以使用 [Scoop](https://scoop.sh/) 安装。
+
+```pwsh
+scoop install gcc-arm-none-eabi
+scoop install cmake
+```
+
+另外需要使用 pip 安装 `pyocd`
+
+```pwsh
+pip install pyocd
+```
+
+克隆仓库并构建：
+
+```pwsh
+https://github.com/Duanyll/py32-ina219-usb-meter
+cd py32-ina219-usb-meter
+git submodule update --init
+cmake -B build -S .
+cmake --build build
+```
+
+烧录固件方法：使用支持 DAPLink 的调试器（如 DAPLink 模式的 WCH-LinkE）连接排母上的 GND，SWD，SWC，3V3 下载固件
+
+```pwsh
+cmake --build build --target flash
+```

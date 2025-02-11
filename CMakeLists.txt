@@ -214,7 +214,7 @@ endif()
 # ----------------------------------- Flash ---------------------------------- #
 if (${flash_program} MATCHES "jlink")
     file(WRITE "${CMAKE_SOURCE_DIR}/jlink-flash" "erase\nloadfile ${hex_file} 0 noreset\nreset\nexit\n")
-    add_custom_target(flash
+    add_custom_target(Flash
         COMMAND JLinkExe -device ${mcu_upper} -if swd -speed 4000 -JLinkScriptFile "${CMAKE_SOURCE_DIR}/Libs/Misc/jlink-script" -CommanderScript "${CMAKE_SOURCE_DIR}/jlink-flash"
         DEPENDS ${project_name}.elf
         COMMENT "Flashing ${hex_file}"

@@ -1,11 +1,3 @@
-/**
- * Demo: Write Option Bytes
- *
- * Board: PY32F003W1XS (SOP16)
- *
- * This demo shows how to config reset pin as gpio output
- */
-
 #include "main.h"
 #include "py32f0xx_bsp_clock.h"
 #include "py32f0xx_bsp_printf.h"
@@ -20,7 +12,6 @@ static void APP_SPrintInt(char *str, int num);
 static void APP_EnsureOptionBytes(void);
 static void APP_GPIOConfig(void);
 static void APP_FlashSetOptionBytes(void);
-static void APP_SSD1306Demo(void);
 
 SWIIC_Config swiic_config;
 
@@ -165,28 +156,6 @@ static void APP_FlashSetOptionBytes(void) {
   LL_FLASH_OB_Lock();
   /* Reload option bytes */
   LL_FLASH_OB_Launch();
-}
-
-void APP_SSD1306Demo(void) {
-  SSD1306_Init();
-
-  SSD1306_DrawLine(0, 0, 127, 0, 1);
-  SSD1306_DrawLine(0, 0, 0, 31, 1);
-  SSD1306_DrawLine(127, 0, 127, 31, 1);
-  SSD1306_DrawLine(0, 31, 127, 31, 1);
-  SSD1306_GotoXY(5, 5);
-  SSD1306_Puts("OLED:128x64", &Font_6x10, 1);
-  SSD1306_GotoXY(5, 20);
-  SSD1306_Puts("Font size: 6x10", &Font_6x10, 1);
-  SSD1306_UpdateScreen(); // display
-
-  SSD1306_Fill(0);
-  SSD1306_GotoXY(5, 5);
-  SSD1306_Puts("OLED:128x64", &Font_6x10, 1);
-  SSD1306_GotoXY(5, 20);
-  SSD1306_Puts("SSD1306 Demo", &Font_6x10, 1);
-  SSD1306_UpdateScreen();
-  LL_mDelay(1000);
 }
 
 void APP_I2C_Transmit(uint8_t devAddress, uint8_t memAddress, uint8_t *pData,
